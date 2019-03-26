@@ -1,12 +1,13 @@
 ---
-title: 'Reproducible Research Course Peer-Review Project #1 - Week 2'
+title: "Reproducible Research Course Peer-Review Project #1 - Week 2"
 author: "M.Kee"
 date: "March 22, 2019"
 output: 
   html_document: 
-    keep_md: yes
-    number_sections: yes
-    toc: yes
+    keep_md: true
+    number_sections: true
+    toc: true
+    toc_float: true
 ---
 
 _Introduction_
@@ -101,7 +102,7 @@ summary(dt0)
 ```
 
 \
-\ **What is mean total number of steps taken per day?**
+**What is mean total number of steps taken per day?**
 ```{r, echo=TRUE}
 subdt0_1 <- aggregate(steps ~ date, dt0, sum, na.rm = TRUE) # calculating the total step taken within each day
 
@@ -116,7 +117,7 @@ g1+geom_histogram(colour = "steelblue4", fill = "cadetblue1", bins = 20)+geom_ru
 The mean of the total number of steps taken per day is approximately `r meanperday` (rounded to the nearest whole number). The median of the total number of steps taken per day is `r medianperday`.
 
 \
-\ **What is the average daily activity pattern?**
+**What is the average daily activity pattern?**
 ```{r, echo=TRUE}
 subdt0_2 <- aggregate(steps ~ timeinterval, dt0, mean, na.rm = TRUE) # calculating the average number of steps taken, averaged across all days
 
@@ -128,7 +129,7 @@ g2+geom_line()+geom_vline(mapping = aes(xintercept = as.POSIXct(subdt0_2$timeint
 On average across all days, the 5-minute interval that contains the maximum number of steps is `r subdt0_2$timeinterval[104]` interval.
 
 \
-\ **Imputing missing values.**
+**Imputing missing values.**
 ```{r, echo=TRUE}
 dt0$steps_recoded <- dt0$steps # Creating a copy of the original steps column for strategizing how to handle missing values
 dt0$steps_recoded[is.na(dt0$steps) == TRUE] <- -1 # Assign all missing values within the dataset as -1
@@ -146,7 +147,7 @@ g3+geom_histogram(colour = "steelblue4", fill = "cadetblue1", bins = 20)+geom_ru
 This section of code deals with imputting missing values. The strategy that I decided to use was to replace all of the missing values (designated by NA) with -1s. Because the dataset already contain measurements recorded as zero, I did not want to mix the missing values with the zero values. Therefore, I decide to make the missing values more distinguishable from the rest of the dataset. By me doing this, the mean values shifted more to the left of its orignial value when compared to the previous, therefore indicating a decrease in the mean value. The median value also showed a small shift to the left, hence also showing a decreae in value. However, the shift as observed with the median was not nearly as large as the shift observed in the mean value. The values of the newly calculated mean and median are `r meanperday2` and `r medianperday2` respectively.
 
 \
-\ **Are there difference in activity patterns between weekdays and weekends?**
+**Are there difference in activity patterns between weekdays and weekends?**
 ```{r, echo=TRUE}
 # Creating a new column designating the day of the week as derived from the column containing a timestamp (mergedtime_char) & converting the result to a colunmn of factors
 dt0$dayofwk <- factor(weekdays(strptime(dt0$mergedtime_char, format = "%Y-%m-%d %H%M")), levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
@@ -164,4 +165,4 @@ g4+geom_line()+facet_grid(WkdyOrNah~.)+labs(x = "Time of Day (measured in 5-Minu
 According to the graph presented below, there does seem to be a difference in the activity pattern between weekdays and weekends.
 
 \
-\ The End - KP23
+The End - KP23

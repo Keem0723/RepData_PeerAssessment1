@@ -1,12 +1,13 @@
 ---
-title: 'Reproducible Research Course Peer-Review Project #1 - Week 2'
+title: "Reproducible Research Course Peer-Review Project #1 - Week 2"
 author: "M.Kee"
 date: "March 22, 2019"
 output: 
   html_document: 
-    keep_md: yes
-    number_sections: yes
-    toc: yes
+    keep_md: true
+    number_sections: true
+    toc: true
+    toc_float: true
 ---
 
 _Introduction_
@@ -96,9 +97,10 @@ list.files()
 ```
 
 ```
-## [1] "activity.zip"          "doc"                   "instructions_fig"     
-## [4] "PA1_template.Rmd"      "PA1_template_Keed.Rmd" "Raw Data"             
-## [7] "README.md"             "setdesiredwd.R"
+## [1] "00_Original Files from GitHub Fork"
+## [2] "PA1_template_Keed.Rmd"             
+## [3] "Raw Data"                          
+## [4] "setdesiredwd.R"
 ```
 
 ```r
@@ -111,7 +113,7 @@ if (!file.exists("Activity_Monitoring_Data.zip"))
 ```
 
 ```
-## [1] "Tue Mar 26 11:46:24 2019"
+## [1] "Tue Mar 26 15:28:28 2019"
 ```
 
 ```r
@@ -187,7 +189,7 @@ summary(dt0)
 ```
 
 \
-\ **What is mean total number of steps taken per day?**
+**What is mean total number of steps taken per day?**
 
 ```r
 subdt0_1 <- aggregate(steps ~ date, dt0, sum, na.rm = TRUE) # calculating the total step taken within each day
@@ -209,7 +211,7 @@ g1+geom_histogram(colour = "steelblue4", fill = "cadetblue1", bins = 20)+geom_ru
 The mean of the total number of steps taken per day is approximately 10766 (rounded to the nearest whole number). The median of the total number of steps taken per day is 10765.
 
 \
-\ **What is the average daily activity pattern?**
+**What is the average daily activity pattern?**
 
 ```r
 subdt0_2 <- aggregate(steps ~ timeinterval, dt0, mean, na.rm = TRUE) # calculating the average number of steps taken, averaged across all days
@@ -224,7 +226,7 @@ g2+geom_line()+geom_vline(mapping = aes(xintercept = as.POSIXct(subdt0_2$timeint
 On average across all days, the 5-minute interval that contains the maximum number of steps is 0835 interval.
 
 \
-\ **Imputing missing values.**
+**Imputing missing values.**
 
 ```r
 dt0$steps_recoded <- dt0$steps # Creating a copy of the original steps column for strategizing how to handle missing values
@@ -249,7 +251,7 @@ g3+geom_histogram(colour = "steelblue4", fill = "cadetblue1", bins = 20)+geom_ru
 This section of code deals with imputting missing values. The strategy that I decided to use was to replace all of the missing values (designated by NA) with -1s. Because the dataset already contain measurements recorded as zero, I did not want to mix the missing values with the zero values. Therefore, I decide to make the missing values more distinguishable from the rest of the dataset. By me doing this, the mean values shifted more to the left of its orignial value when compared to the previous, therefore indicating a decrease in the mean value. The median value also showed a small shift to the left, hence also showing a decreae in value. However, the shift as observed with the median was not nearly as large as the shift observed in the mean value. The values of the newly calculated mean and median are 9316 and 10395 respectively.
 
 \
-\ **Are there difference in activity patterns between weekdays and weekends?**
+**Are there difference in activity patterns between weekdays and weekends?**
 
 ```r
 # Creating a new column designating the day of the week as derived from the column containing a timestamp (mergedtime_char) & converting the result to a colunmn of factors
@@ -270,4 +272,4 @@ g4+geom_line()+facet_grid(WkdyOrNah~.)+labs(x = "Time of Day (measured in 5-Minu
 According to the graph presented below, there does seem to be a difference in the activity pattern between weekdays and weekends.
 
 \
-\ The End - KP23
+The End - KP23
